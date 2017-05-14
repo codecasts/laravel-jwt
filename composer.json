@@ -1,0 +1,24 @@
+{
+    "name": "kino/laravel-jwt",
+    "description": "Dead simple JWT Auth Provider for Laravel 5.4+",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Diego Hernandes",
+            "email": "diego@hernandev.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Kino\\Auth\\JWT\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.0.0",
+        "ext-openssl": "*",
+        "lcobucci/jwt": "^3.2",
+        "illuminate/support": ">=5.4.0"
+    }
+}
