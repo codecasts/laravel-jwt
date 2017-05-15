@@ -1,6 +1,7 @@
-# Laravel JWT
 
 ![Readme Art](http://imageshack.com/a/img922/4489/tftxQ1.png)
+
+# Laravel JWT
 
 This package provides out-of-the-box API authentication using JWT for Laravel.
 
@@ -17,7 +18,7 @@ composer require codecasts/laravel-jwt
 In order to setup this package into your application, minimal configuration 
 is actually needed.
 
-#### 1) Service Provider.
+### 1) Service Provider.
 
 Register this package's Service Provider by adding it to the `providers` 
 section of your `config/app.php` file:
@@ -32,7 +33,7 @@ section of your `config/app.php` file:
    ],
 ```
 
-#### 2) Configuration file.
+### 2) Configuration file.
 
 Publish the configuration file (`config/jwt.php`) by running the
 following command after registering the Service Provider.
@@ -41,7 +42,7 @@ following command after registering the Service Provider.
 php artisan vendor:publish --provider="Codecasts\Auth\JWT\ServiceProvider"
 ```
 
-#### 3) Generate a Secret.
+### 3) Generate a Secret.
 
 In order for this package to works, you will need a separate secret
 (do not use the application key).
@@ -59,7 +60,7 @@ Then, copy the generated key contents into your `.env` file.
 **NOTICE**: The key generation process will not automatically
 set it inside your `.env` file, do it manually.
 
-#### 4) Setup Guard
+### 4) Setup Guard
 
 In order to automatically authenticate your routes using `JWT` tokens,
 you need to change the guard driver to `jwt`
@@ -99,7 +100,7 @@ will be added on this package when it reaches it's 1.0 version.
 This package is fully integrated with Laravel Authentication.
 
 The default configuration (`config/jwt.php`) brings a sensitive value that
-is very useful when your application is not completely an API: **`'middleware_match`**
+is very useful when your application is not completely an API: **`middleware_match`**
 
 By not completely an API, I mean, the JWT guard is not the default one.
 
@@ -110,8 +111,9 @@ This configuration key allows non protected routes to work properly.
 
 Notice that this option will match middleware group names with guard names.
 
-> In this case, the 'api' middleware group will always use the `api` guard.
-> Also, the 'web' middleware group will always use the `web` guard.
+**In this case, the 'api' middleware group will always use the `api` guard.**
+
+**Also, the 'web' middleware group will always use the `web` guard**
 
 If you do not use this value, you will need to use suffixes when referencing the
 `auth` middleware, like `auth:api`.
@@ -125,8 +127,8 @@ you can just expect create a Guard current implementation from the IoC and work 
 Check out the examples.
 
 
-** On the following examples, all Guard instances are injected from `Illuminate\Contracts\Auth\Guard` **
-** On the following examples, all Request instances are injected from  `Illuminate\Http\Request` **
+**On the following examples, all Guard instances are injected from `Illuminate\Contracts\Auth\Guard`**
+**On the following examples, all Request instances are injected from  `Illuminate\Http\Request`**
 
 #### Token from User Instance.
 
