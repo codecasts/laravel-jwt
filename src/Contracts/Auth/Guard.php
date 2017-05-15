@@ -59,10 +59,11 @@ interface Guard extends LaravelGuard
     /**
      * Refresh a given token.
      *
-     * @param array $customClaims
+     * @param string $token
+     * @param array  $customClaims
      * @return bool|string
      */
-    public function refresh(array $customClaims = []);
+    public function refresh(string $token = null, array $customClaims = []);
 
     /**
      * Issue a token for the current authenticated user.

@@ -80,21 +80,23 @@ return [
     |
     */
 
-    'refresh_limit' => 7200
+    'refresh_limit' => 7200,
 
     /*
-    | That's it. there's nothing more to configure.
+    |--------------------------------------------------------------------------
+    | Auto Guard Binding By Middleware Match
+    |--------------------------------------------------------------------------
     |
-    | Things like cache for blacklist and user model provider will be read from
-    | your default configurations.
+    | Useful when your application has more than 1 guard, and the JWT powered one
+    | is not the default.
     |
-    | Blacklisted tokens will be stored within your cache driver for the following time:
+    | If your application is a API only, you can safely set this to false.
     |
-    | ttl + refresh_limit.
-    |
-    | After this time has been passed, the token cannot be refresh anyway so it will automatically
-    | be purged from your cache.
+    | Setting it to false without having JWT guard as default will make
+    | mandatory using the suffix :guardName when using the 'auth' middleware.
     |
     */
+
+    'middleware_match' => true,
 
 ];

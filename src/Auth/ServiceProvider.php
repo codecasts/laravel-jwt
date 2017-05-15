@@ -4,7 +4,6 @@ namespace Kino\Auth\JWT\Auth;
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
-use Illuminate\Support\Facades\Auth;
 use Kino\Auth\JWT\Contracts\Token\Manager as TokenManager;
 use Illuminate\Auth\AuthManager;
 

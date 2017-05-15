@@ -2,7 +2,9 @@
 
 namespace Kino\Auth\JWT;
 
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Events\RouteMatched;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Kino\Auth\JWT\Auth\Guard;
 use Kino\Auth\JWT\Console\KeyGenerateCommand;
@@ -34,9 +36,8 @@ class ServiceProvider extends LaravelServiceProvider
         // declare the configuration files available for publishing.
         $this->publishes([__DIR__.'../config/jwt.php'], 'config');
 
-        // setup the route listener that will
-        // automatically set the guard for the api routes.
-        $this->setupRouteListener();
+        // case enabled, setups a guard match by middleware group name.
+        $this->setupGuardMiddlewareMatch();
     }
 
 
@@ -81,25 +82,27 @@ class ServiceProvider extends LaravelServiceProvider
     }
 
     /**
-     * Setup a route listener that will automatically set a given guard
-     * into a route or group of routes.
+     * Setup the current guard to be matched by route middleware name.
      */
-    protected function setupRouteListener()
+    protected function setupGuardMiddlewareMatch()
     {
-        // when the route is actually matched...
-        $this->app['router']->matched(function (RouteMatched $event) {
+        // should the middleware group match the guard name?
+        $middlewareMatch = $this->app['config']->get('jwt.middleware_match', true);
 
-            // get the current route.
-            $route = $event->route;
+        if ($middlewareMatch) {
+            // when the route is actually matched...
+            $this->app['router']->matched(function (RouteMatched $event) {
 
-            // detects if a there is a 'guard' key on the route group / action.
-            $guard = array_get((array) $route->getAction(), 'guard', null);
+                // get the route middleware group.
+                $middlewareGroup = Arr::first((array) $event->route->middleware());
 
-            // if there is a guard action set.
-            if ($guard) {
-                // setup the current auth driver as being
-                $this->app['auth']->setDefaultDriver($guard);
-            }
-        });
+                // if there is a group detected and  there is a guard that matches the middleware
+                // group name...
+                if ($middlewareGroup && !!$this->app['auth']->guard($middlewareGroup)) {
+                    // setup the matching guard as default.
+                    $this->app['auth']->setDefaultDriver($middlewareGroup);
+                }
+            });
+        }
     }
 }

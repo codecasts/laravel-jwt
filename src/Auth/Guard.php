@@ -398,13 +398,14 @@ class Guard implements GuardContract
     /**
      * Refresh a given token.
      *
-     * @param array $customClaims
+     * @param string $token
+     * @param array  $customClaims
      * @return bool|string
      */
-    public function refresh(array $customClaims = [])
+    public function refresh(string $token = null, array $customClaims = [])
     {
-        // detects the request token.
-        $token = $this->detectedToken();
+        // detect token if none was passed.
+        $token = $token ?? $this->detectedToken();
 
         // if no token was detected.
         if (!$token) {
@@ -424,6 +425,9 @@ class Guard implements GuardContract
         if (!$user) {
             return false;
         }
+
+        // set the user instance.
+        $this->user = $user;
 
         // try to issue a new token and refresh
         try {
