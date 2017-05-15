@@ -128,6 +128,7 @@ Check out the examples.
 
 
 **On the following examples, all Guard instances are injected from `Illuminate\Contracts\Auth\Guard`**
+
 **On the following examples, all Request instances are injected from  `Illuminate\Http\Request`**
 
 #### Token from User Instance.
