@@ -1,6 +1,6 @@
 # Laravel JWT
 
-![Readme Art](http://imageshack.com/a/img923/9629/0S3fQu.png)
+![Readme Art](http://imageshack.com/a/img922/4489/tftxQ1.png)
 
 This package provides out-of-the-box API authentication using JWT for Laravel.
 
@@ -9,7 +9,7 @@ This package provides out-of-the-box API authentication using JWT for Laravel.
 You can install this package by running:
 
 ```bash
-composer require kino/laravel-jwt
+composer require codecasts/laravel-jwt
 ```
 
 ## Setup.
@@ -27,7 +27,7 @@ section of your `config/app.php` file:
        
        // ... other providers omitted
        
-       Kino\Auth\JWT\ServiceProvider::class,
+       Codecasts\Auth\JWT\ServiceProvider::class,
    
    ],
 ```
@@ -38,7 +38,7 @@ Publish the configuration file (`config/jwt.php`) by running the
 following command after registering the Service Provider.
 
 ```bash
-php artisan vendor:publish --provider="Kino\Auth\JWT\ServiceProvider"
+php artisan vendor:publish --provider="Codecasts\Auth\JWT\ServiceProvider"
 ```
 
 #### 3) Generate a Secret.

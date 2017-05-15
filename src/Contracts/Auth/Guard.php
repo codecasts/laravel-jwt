@@ -1,11 +1,11 @@
 <?php
 
-namespace Kino\Auth\JWT\Contracts\Auth;
+namespace Codecasts\Auth\JWT\Contracts\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard as LaravelGuard;
 use Illuminate\Contracts\Events\Dispatcher;
-use Kino\Auth\JWT\Contracts\Token\Manager;
+use Codecasts\Auth\JWT\Contracts\Token\Manager;
 use Symfony\Component\HttpFoundation\Request;
 
 interface Guard extends LaravelGuard
@@ -16,7 +16,7 @@ interface Guard extends LaravelGuard
      * @param \Illuminate\Contracts\Foundation\Application $app
      * @param string $name
      * @param \Illuminate\Contracts\Auth\UserProvider $provider
-     * @param \Kino\Auth\JWT\Contracts\Token\Manager $manager
+     * @param \Codecasts\Auth\JWT\Contracts\Token\Manager $manager
      */
     public function __construct($app, $name, $provider, $manager);
 

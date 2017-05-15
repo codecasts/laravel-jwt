@@ -1,13 +1,13 @@
 <?php
 
-namespace Kino\Auth\JWT\Token;
+namespace Codecasts\Auth\JWT\Token;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Config\Repository as Config;
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Support\Str;
-use Kino\Auth\JWT\Contracts\Token\Manager as ManagerContract;
+use Codecasts\Auth\JWT\Contracts\Token\Manager as ManagerContract;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;

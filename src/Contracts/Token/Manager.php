@@ -1,6 +1,6 @@
 <?php
 
-namespace Kino\Auth\JWT\Contracts\Token;
+namespace Codecasts\Auth\JWT\Contracts\Token;
 
 use \Illuminate\Cache\Repository as Cache;
 use \Illuminate\Config\Repository as Config;

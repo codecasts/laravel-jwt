@@ -1,10 +1,10 @@
 <?php
 
-namespace Kino\Auth\JWT\Auth;
+namespace Codecasts\Auth\JWT\Auth;
 
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
-use Kino\Auth\JWT\Contracts\Token\Manager as TokenManager;
+use Codecasts\Auth\JWT\Contracts\Token\Manager as TokenManager;
 use Illuminate\Auth\AuthManager;
 
 /**
@@ -57,7 +57,7 @@ class ServiceProvider extends AuthServiceProvider
     /**
      * Get's a instance of the token manager.
      *
-     * @return \Kino\Auth\JWT\Contracts\Token\Manager
+     * @return \Codecasts\Auth\JWT\Contracts\Token\Manager
      */
     protected function getTokenManager()
     {

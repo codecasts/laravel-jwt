@@ -1,19 +1,19 @@
 <?php
 
-namespace Kino\Auth\JWT;
+namespace Codecasts\Auth\JWT;
 
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
-use Kino\Auth\JWT\Auth\Guard;
-use Kino\Auth\JWT\Console\KeyGenerateCommand;
-use Kino\Auth\JWT\Contracts;
-use Kino\Auth\JWT\Token\Manager;
-use Kino\Auth\JWT\Auth\ServiceProvider as AuthServiceProvider;
+use Codecasts\Auth\JWT\Auth\Guard;
+use Codecasts\Auth\JWT\Console\KeyGenerateCommand;
+use Codecasts\Auth\JWT\Contracts;
+use Codecasts\Auth\JWT\Token\Manager;
+use Codecasts\Auth\JWT\Auth\ServiceProvider as AuthServiceProvider;
 
 /**
- * Kino JWT Auth for Laravel 5.4
+ * Codecasts JWT Auth for Laravel 5.4
  *
  * Main Service provider.
  */

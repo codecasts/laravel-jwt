@@ -1,6 +1,6 @@
 <?php
 
-namespace Kino\Auth\JWT\Console;
+namespace Codecasts\Auth\JWT\Console;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Helper\FormatterHelper;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Kino\Auth\JWT\Auth;
+namespace Codecasts\Auth\JWT\Auth;
 
 use Illuminate\Auth\Events\Attempting;
 use Illuminate\Auth\Events\Failed;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Events\Dispatcher;
 use Symfony\Component\HttpFoundation\Request;
 use Illuminate\Support\Str;
-use Kino\Auth\JWT\Contracts\Auth\Guard as GuardContract;
+use Codecasts\Auth\JWT\Contracts\Auth\Guard as GuardContract;
 use Lcobucci\JWT\Token;
 
 /**
@@ -56,7 +56,7 @@ class Guard implements GuardContract
     /**
      * The token manager implementation.
      *
-     * @var \Kino\Auth\JWT\Contracts\Token\Manager
+     * @var \Codecasts\Auth\JWT\Contracts\Token\Manager
      */
     protected $manager;
 
@@ -97,7 +97,7 @@ class Guard implements GuardContract
      * @param \Illuminate\Contracts\Foundation\Application $app
      * @param string $name
      * @param \Illuminate\Contracts\Auth\UserProvider $provider
-     * @param \Kino\Auth\JWT\Contracts\Token\Manager $manager
+     * @param \Codecasts\Auth\JWT\Contracts\Token\Manager $manager
      */
     public function __construct($app, $name, $provider, $manager)
     {
@@ -366,7 +366,7 @@ class Guard implements GuardContract
     /**
      * Returns the guard instance of the token manager.
      *
-     * @return \Kino\Auth\JWT\Contracts\Token\Manager
+     * @return \Codecasts\Auth\JWT\Contracts\Token\Manager
      */
     public function manager()
     {
