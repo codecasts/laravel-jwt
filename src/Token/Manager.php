@@ -12,8 +12,10 @@ use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Token;
-use Lcobucci\JWT\ValidationData;
 
+/**
+ * JWT Token Manager.
+ */
 class Manager implements ManagerContract
 {
     /**
@@ -208,7 +210,7 @@ class Manager implements ManagerContract
      */
     protected function now()
     {
-        return Carbon::create();
+        return Carbon::now('UTC');
     }
 
     /**
@@ -226,11 +228,11 @@ class Manager implements ManagerContract
 
     /**
      * @param Authenticatable $user
-     * @param array $customClaims
+     * @param array $additionalCustomClaims
      *
      * @return string
      */
-    public function issue(Authenticatable $user, array $customClaims = [])
+    public function issue(Authenticatable $user, array $additionalCustomClaims = [])
     {
         // gets a new builder instance.
         $builder = $this->builder();
@@ -257,10 +259,33 @@ class Manager implements ManagerContract
         $expiresAt = (clone $now)->addMinutes($this->ttl);
         $builder->setExpiration($expiresAt->timestamp);
 
+        // created a custom claim that informs the limit time
+        // for the token to be renewed.
+        // the refresh limit is based on ttl + limit (grace period).
+        $refreshLimit = (clone $now)->addMinutes($this->ttl + $this->refreshLimit);
+        $builder->set('rli', $refreshLimit->timestamp);
+
         // loop through custom claims.
-        foreach($customClaims as $claim => $value) {
+        foreach($additionalCustomClaims as $claim => $value) {
             // set custom claim.
             $builder->set($claim, $value);
+        }
+
+        // set user object default custom claims.
+        if (method_exists($user, 'customJWTClaims')) {
+            // call the methods.
+            try {
+                // call the custom claims method.
+                $customClaims = (array) $user->customJWTClaims();
+
+                // if the custom claims method returns a array.
+                foreach($customClaims as $claim => $value) {
+                    $builder->set($claim, $value);
+                }
+            } catch(\Exception $e) {
+                // just continue since the custom claims should
+                // not prevent the token of being issued.
+            }
         }
 
         // get the signer.
@@ -298,7 +323,13 @@ class Manager implements ManagerContract
      */
     public function parseToken(string $tokenString)
     {
-       return $this->parser()->parse($tokenString);
+        // try to parse a token string.
+        try {
+            return $this->parser()->parse($tokenString);
+        } catch (\Exception $e) {
+            // if it was not possible to, return null.
+            return null;
+        }
     }
 
     /**
@@ -332,13 +363,37 @@ class Manager implements ManagerContract
      */
     public function expired(Token $token)
     {
-        // created a new ValidationData instance.
-        $data = new ValidationData();
+        return $token->isExpired();
+    }
 
-        // sets the current date on the validation data.
-        $data->setCurrentTime($this->now()->timestamp);
+    /**
+     * Is the token Expired?
+     *
+     * @param Token $token
+     * @return bool
+     */
+    public function canBeRenewed(Token $token)
+    {
+        if(!$token->isExpired()) {
+            return true;
+        }
 
-        // return the validation result.
-        return !$token->validate($data);
+        // get the renewal limit from token.
+        $renewalLimitTimestamp = $token->getClaim('rli', null);
+
+        // if no renewal limit exists, it means
+        // that it should not be renewed.
+        if (!$renewalLimitTimestamp) {
+            return false;
+        }
+
+        // created a UTC carbon object using the renewal limit.
+        $limit = Carbon::createFromTimestampUTC($renewalLimitTimestamp);
+
+        // get a UTC carbon object that represents now.
+        $now = $this->now();
+
+        // return if the limit is lesser or equal to now.
+        return $limit->lessThanOrEqualTo($now);
     }
 }

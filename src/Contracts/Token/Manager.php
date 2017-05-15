@@ -58,4 +58,12 @@ interface Manager
      * @return bool
      */
     public function expired(Token $token);
+
+    /**
+     * Is the token Expired?
+     *
+     * @param Token $token
+     * @return bool
+     */
+    public function canBeRenewed(Token $token);
 }

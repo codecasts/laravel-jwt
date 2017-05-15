@@ -4,6 +4,9 @@ namespace Kino\Auth\JWT\Contracts\Auth;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Guard as LaravelGuard;
+use Illuminate\Contracts\Events\Dispatcher;
+use Kino\Auth\JWT\Contracts\Token\Manager;
+use Symfony\Component\HttpFoundation\Request;
 
 interface Guard extends LaravelGuard
 {
@@ -45,4 +48,57 @@ interface Guard extends LaravelGuard
      * @return void
      */
     public function logout();
+
+    /**
+     * Returns the guard instance of the token manager.
+     *
+     * @return Manager
+     */
+    public function manager();
+
+    /**
+     * Refresh a given token.
+     *
+     * @param array $customClaims
+     * @return bool|string
+     */
+    public function refresh(array $customClaims = []);
+
+    /**
+     * Issue a token for the current authenticated user.
+     *
+     * @param array $customClaims
+     * @return bool|string
+     */
+    public function issue(array $customClaims = []);
+
+    /**
+     * Get the event dispatcher instance.
+     *
+     * @return \Illuminate\Contracts\Events\Dispatcher
+     */
+    public function getDispatcher();
+
+    /**
+     * Set the event dispatcher instance.
+     *
+     * @param  \Illuminate\Contracts\Events\Dispatcher  $events
+     * @return void
+     */
+    public function setDispatcher(Dispatcher $events);
+
+    /**
+     * Get the current request instance.
+     *
+     * @return \Symfony\Component\HttpFoundation\Request
+     */
+    public function getRequest();
+
+    /**
+     * Set the current request instance.
+     *
+     * @param  \Symfony\Component\HttpFoundation\Request  $request
+     * @return $this
+     */
+    public function setRequest(Request $request);
 }

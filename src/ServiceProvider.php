@@ -2,6 +2,7 @@
 
 namespace Kino\Auth\JWT;
 
+use Illuminate\Routing\Events\RouteMatched;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Kino\Auth\JWT\Auth\Guard;
 use Kino\Auth\JWT\Console\KeyGenerateCommand;
@@ -32,6 +33,10 @@ class ServiceProvider extends LaravelServiceProvider
     {
         // declare the configuration files available for publishing.
         $this->publishes([__DIR__.'../config/jwt.php'], 'config');
+
+        // setup the route listener that will
+        // automatically set the guard for the api routes.
+        $this->setupRouteListener();
     }
 
 
@@ -70,7 +75,31 @@ class ServiceProvider extends LaravelServiceProvider
     protected function registerCommands()
     {
         $this->commands([
-            KeyGenerateCommand::class, // "jwt:generate" command (generates keys).
+            // "jwt:generate" command (generates keys).
+            KeyGenerateCommand::class,
         ]);
+    }
+
+    /**
+     * Setup a route listener that will automatically set a given guard
+     * into a route or group of routes.
+     */
+    protected function setupRouteListener()
+    {
+        // when the route is actually matched...
+        $this->app['router']->matched(function (RouteMatched $event) {
+
+            // get the current route.
+            $route = $event->route;
+
+            // detects if a there is a 'guard' key on the route group / action.
+            $guard = array_get((array) $route->getAction(), 'guard', null);
+
+            // if there is a guard action set.
+            if ($guard) {
+                // setup the current auth driver as being
+                $this->app['auth']->setDefaultDriver($guard);
+            }
+        });
     }
 }
