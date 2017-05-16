@@ -14,6 +14,11 @@
             "Codecasts\\Auth\\JWT\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.0.0",
