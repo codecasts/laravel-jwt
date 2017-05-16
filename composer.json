@@ -20,5 +20,10 @@
         "ext-openssl": "*",
         "lcobucci/jwt": "^3.2",
         "illuminate/support": ">=5.4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.4",
+        "phpunit/phpunit": "^6.1",
+        "mockery/mockery": "^0.9.9"
     }
 }
