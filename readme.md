@@ -3,6 +3,10 @@
 
 # Laravel JWT
 
+[![Latest Stable Version](https://poser.pugx.org/codecasts/laravel-jwt/v/stable)](https://packagist.org/packages/codecasts/laravel-jwt)
+[![Total Downloads](https://poser.pugx.org/codecasts/laravel-jwt/downloads)](https://packagist.org/packages/codecasts/laravel-jwt)
+[![License](https://poser.pugx.org/codecasts/laravel-jwt/license)](https://packagist.org/packages/codecasts/laravel-jwt)
+
 This package provides out-of-the-box API authentication using JWT for Laravel.
 
 ## Installation.
