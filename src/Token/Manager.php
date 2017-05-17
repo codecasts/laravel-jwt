@@ -393,7 +393,7 @@ class Manager implements ManagerContract
         // get a UTC carbon object that represents now.
         $now = $this->now();
 
-        // return if the limit is lesser or equal to now.
-        return $limit->lessThanOrEqualTo($now);
+        // return true if now if before the limit.
+        return $now->lessThanOrEqualTo($limit);
     }
 }
