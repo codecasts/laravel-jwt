@@ -20,9 +20,9 @@ class ServiceProvider extends AuthServiceProvider
     protected $authManager = null;
 
     /**
-     * Boot Guard.
+     * Register Guard.
      */
-    public function boot()
+    public function register()
     {
         // gets the auth factory instance and register on provider attribute.
         $this->authManager = $this->app->make(AuthManager::class);
