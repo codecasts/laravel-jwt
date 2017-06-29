@@ -34,7 +34,9 @@ class ServiceProvider extends LaravelServiceProvider
     public function boot()
     {
         // declare the configuration files available for publishing.
-        $this->publishes([__DIR__.'../config/jwt.php'], 'config');
+        $this->publishes([
+            __DIR__.'../config/jwt.php' => config_path('jwt.php')
+        ]);
 
         // case enabled, setups a guard match by middleware group name.
         $this->setupGuardMiddlewareMatch();
