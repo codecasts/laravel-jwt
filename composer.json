@@ -14,11 +14,21 @@
             "Codecasts\\Auth\\JWT\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
     "minimum-stability": "stable",
     "require": {
         "php": ">=7.0.0",
         "ext-openssl": "*",
         "lcobucci/jwt": "^3.2",
         "illuminate/support": ">=5.4.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^3.4",
+        "phpunit/phpunit": "^6.1",
+        "mockery/mockery": "^0.9.9"
     }
 }
