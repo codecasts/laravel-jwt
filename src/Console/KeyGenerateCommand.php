@@ -24,7 +24,7 @@ class KeyGenerateCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         // call the action to generate a new key.
         $key = $this->generateRandomKey();
