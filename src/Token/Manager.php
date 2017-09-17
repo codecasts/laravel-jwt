@@ -241,7 +241,7 @@ class Manager implements ManagerContract
         $builder->setIssuer($this->issuer);
 
         // set the subject.
-        $builder->setSubject($user->{$user->getAuthIdentifierName()});
+        $builder->setSubject($user->getAuthIdentifier());
 
         // generate a unique id for the token, and set it to replicate as a header.
         $builder->setId($this->generateId(), true);
