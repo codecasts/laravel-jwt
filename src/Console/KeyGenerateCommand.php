@@ -19,6 +19,11 @@ class KeyGenerateCommand extends Command
      */
     protected $signature = 'jwt:generate';
 
+    public function fire()
+    {
+        $this->handle();
+    }
+
     /**
      * Execute the command that will generate and print a key.
      *
