@@ -27,7 +27,7 @@ is actually needed.
 Register this package's Service Provider by adding it to the `providers`
 section of your `config/app.php` file:
 
-> You can skip this step on Laravel 5.5 due to the [auto-discovery package feature](https://laravel.com/docs/5.5/packages#package-discovery).
+> You may skip this step on Laravel 5.5 due to the [auto-discovery package feature](https://laravel.com/docs/5.5/packages#package-discovery).
 
 ```php
    'providers' => [
