@@ -31,6 +31,9 @@
         "phpunit/phpunit": "^6.1",
         "mockery/mockery": "^0.9.9"
     },
+    "scripts": {
+        "test": "phpunit --colors=always"
+    },
     "extra": {
         "laravel": {
             "providers": [
