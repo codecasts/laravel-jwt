@@ -248,8 +248,8 @@ class User extends Model implements Authenticatable
         ];
     }
 }
-
-
-
-
 ```
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
