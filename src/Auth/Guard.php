@@ -94,7 +94,7 @@ class Guard implements GuardContract
     /**
      * The detected JWT token.
      *
-     * @var string
+     * @var Token|null
      */
     protected $token = null;
 
