@@ -19,21 +19,23 @@ composer require codecasts/laravel-jwt
 
 ## Setup.
 
-In order to setup this package into your application, minimal configuration 
+In order to setup this package into your application, minimal configuration
 is actually needed.
 
 ### 1) Service Provider.
 
-Register this package's Service Provider by adding it to the `providers` 
+Register this package's Service Provider by adding it to the `providers`
 section of your `config/app.php` file:
+
+> You may skip this step on Laravel 5.5 due to the [auto-discovery package feature](https://laravel.com/docs/5.5/packages#package-discovery).
 
 ```php
    'providers' => [
-       
+
        // ... other providers omitted
-       
+
        Codecasts\Auth\JWT\ServiceProvider::class,
-   
+
    ],
 ```
 
@@ -71,7 +73,7 @@ you need to change the guard driver to `jwt`
 
 Inside `config/auth.php` set the corresponding guard group you want to protect:
 
-If you have the default guard group named `api`, your `auth.php` 
+If you have the default guard group named `api`, your `auth.php`
 should be like this:
 
 ```php
@@ -91,7 +93,7 @@ That's it, we are all ready to use it.
 
 ## Usage.
 
-This package aims to be dead simple to use. 
+This package aims to be dead simple to use.
 
 The following templates can be used to setup your existing
 authentication controllers and resources.
@@ -125,7 +127,7 @@ If you do not use this value, you will need to use suffixes when referencing the
 
 ### Issuing and Renewing Tokens.
 
-For issuing tokens, no special class is actually needed, 
+For issuing tokens, no special class is actually needed,
 you can just expect create a Guard current implementation from the IoC and work from there.
 
 Check out the examples.
@@ -137,7 +139,7 @@ Check out the examples.
 
 #### Token from User Instance.
 
-This method should be used when you just registered a user and any other 
+This method should be used when you just registered a user and any other
 special cases.
 
 ```php
@@ -146,21 +148,21 @@ public function tokenFromUser(Guard $auth)
 {
     // generating a token from a given user.
     $user = SomeUserModel::find(12);
-    
+
     // logs in the user
     $auth->login($user);
-    
+
     // get and return a new token
     $token = $auth->issue();
-    
+
     return $token;
 }
-   
+
 ```
 
 #### Token from User Credentials.
 
-This method should be used when you just registered a user and any other 
+This method should be used when you just registered a user and any other
 special cases.
 
 ```php
@@ -169,14 +171,14 @@ public function tokenFromCredentials(Guard $auth, Request $request)
 {
     // get some credentials
     $credentials = $request->only(['email', 'password']);
-    
+
     if ($auth->attempt($credentials)) {
        return $token = $auth->issue();
     }
-    
+
     return ['Invalid Credentials'];
 }
-   
+
 ```
 
 #### Refreshing Tokens.
@@ -184,7 +186,7 @@ public function tokenFromCredentials(Guard $auth, Request $request)
 Tokens can be refreshed in 2 different ways: Auto detect or manual.
 
 If you do not pass any argument into the refresh method, the Guard will
-look for either a **`Authorization`** header or a **`token`** field on the 
+look for either a **`Authorization`** header or a **`token`** field on the
 request's body.
 
 ```php
@@ -193,10 +195,10 @@ public function refreshToken(Guard $auth)
 {
     // auto detecting token from request.
     $token = $auth->refresh();
-    
+
     // manually passing the token to be refreshed.
     $token = $auth->refresh($oldToken);
-    
+
     return $token;
 }
 ```
@@ -246,8 +248,8 @@ class User extends Model implements Authenticatable
         ];
     }
 }
-
-
-
-
 ```
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.

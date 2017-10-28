@@ -30,5 +30,12 @@
         "orchestra/testbench": "^3.4",
         "phpunit/phpunit": "^6.1",
         "mockery/mockery": "^0.9.9"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Codecasts\\Auth\\JWT\\ServiceProvider"
+            ]
+        }
     }
 }

@@ -92,6 +92,13 @@ class Guard implements GuardContract
     protected $lastAttempted;
 
     /**
+     * The detected JWT token.
+     *
+     * @var Token|null
+     */
+    protected $token = null;
+
+    /**
      * JWT Guard constructor.
      *
      * @param \Illuminate\Contracts\Foundation\Application $app
@@ -268,7 +275,7 @@ class Guard implements GuardContract
         // if a token was found...
         if ($headerToken) {
             // return a new token instance.
-            return $this->manager()->parseToken($headerToken);
+            $this->token = $this->manager()->parseToken($headerToken);
         }
 
         // try to find a token passed as parameter on the request.
@@ -276,11 +283,11 @@ class Guard implements GuardContract
 
         // if found...
         if ($parameterToken) {
-            return $this->manager()->parseToken($parameterToken);
+            $this->token = $this->manager()->parseToken($parameterToken);
         }
 
         // return null if no token could be found.
-        return null;
+        return $this->token;
     }
 
     /**
@@ -480,4 +487,15 @@ class Guard implements GuardContract
 
         return $this;
     }
+
+    /**
+     * The detected JWT token.
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
 }
