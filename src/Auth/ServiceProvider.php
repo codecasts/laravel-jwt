@@ -3,6 +3,7 @@
 namespace Codecasts\Auth\JWT\Auth;
 
 use Illuminate\Contracts\Auth\UserProvider;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider;
 use Codecasts\Auth\JWT\Contracts\Token\Manager as TokenManager;
 use Illuminate\Auth\AuthManager;
@@ -38,7 +39,13 @@ class ServiceProvider extends AuthServiceProvider
             // gets a instance of the user provider
             $userProvider = $this->getUserProvider($config['provider']);
 
-            // returns a new guard instance passing a provider and a token manager
+            // creates a new guard instance passing a provider and a token manager
+            $guard = new Guard($app, $name, $userProvider, $tokenManager);
+
+            // set a event dispatcher on the guard.
+            $guard->setDispatcher(resolve(Dispatcher::class));
+
+            // returns the guard instance.
             return new Guard($app, $name, $userProvider, $tokenManager);
         });
     }
