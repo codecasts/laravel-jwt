@@ -99,7 +99,7 @@ class Manager implements ManagerContract
     /**
      * Setup the secret that will be used to sign keys.
      */
-    protected function setupSecret()
+    public function setupSecret()
     {
         // gets the key from config.
         $secret = $this->config->get('jwt.secret');

@@ -18,6 +18,11 @@ interface Manager
     public function __construct(Config $config, Cache $cache);
 
     /**
+     * Setup the secret that will be used to sign keys.
+     */
+    public function setupSecret();
+
+    /**
      * @param Authenticatable $user
      * @param array $customClaims
      *
