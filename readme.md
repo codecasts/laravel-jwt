@@ -144,16 +144,16 @@ special cases.
 
 ```php
 
-public function tokenFromUser(Guard $auth)
+public function tokenFromUser()
 {
     // generating a token from a given user.
     $user = SomeUserModel::find(12);
 
     // logs in the user
-    $auth->login($user);
+    \Auth::login($user);
 
     // get and return a new token
-    $token = $auth->issue();
+    $token = \Auth::issue();
 
     return $token;
 }
@@ -167,13 +167,13 @@ special cases.
 
 ```php
 
-public function tokenFromCredentials(Guard $auth, Request $request)
+public function tokenFromCredentials(Request $request)
 {
     // get some credentials
     $credentials = $request->only(['email', 'password']);
 
-    if ($auth->attempt($credentials)) {
-       return $token = $auth->issue();
+    if (\Auth::attempt($credentials)) {
+       return $token = \Auth::issue();
     }
 
     return ['Invalid Credentials'];
@@ -191,13 +191,13 @@ request's body.
 
 ```php
 
-public function refreshToken(Guard $auth)
+public function refreshToken()
 {
     // auto detecting token from request.
-    $token = $auth->refresh();
+    $token = \Auth::refresh();
 
     // manually passing the token to be refreshed.
-    $token = $auth->refresh($oldToken);
+    $token = \Auth::refresh($oldToken);
 
     return $token;
 }
@@ -219,12 +219,12 @@ $customClaims = [
 ];
 
 // when issuing
-$auth->issue($customClaims);
+\Auth::issue($customClaims);
 
 // when refreshing
 // custom claims are the second parameter as the first one is the
 // old token
-$auth->refresh(null, $customClaims);
+\Auth::refresh(null, $customClaims);
 
 ```
 
