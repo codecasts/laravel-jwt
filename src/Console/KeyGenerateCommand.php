@@ -3,6 +3,7 @@
 namespace Codecasts\Auth\JWT\Console;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\ConfirmableTrait;
 use Symfony\Component\Console\Helper\FormatterHelper;
 
 /**
@@ -12,12 +13,16 @@ use Symfony\Component\Console\Helper\FormatterHelper;
  */
 class KeyGenerateCommand extends Command
 {
+    use ConfirmableTrait;
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'jwt:generate';
+    protected $signature = 'jwt:generate
+            {--show : Display the key instead of modifying files}
+            {--force : Force the operation to run when in production}';
 
     /**
      * Make it 5.4 compatible.
@@ -29,24 +34,72 @@ class KeyGenerateCommand extends Command
 
     /**
      * Execute the command that will generate and print a key.
-     *
-     * @return void
      */
     public function handle()
     {
         // call the action to generate a new key.
         $key = $this->generateRandomKey();
 
-        // print the success block.
-        $this->printBlock([
-            'JWT Key Generated!',
-            'Please Update your .env file manually with the following key:',
-        ], 'bg=green;fg=black', true);
+        if ($this->option('show')) {
+            // print the success block.
+            $this->printBlock([
+                'JWT Key Generated!',
+                'Please Update your .env file manually with the following key:',
+            ], 'bg=green;fg=black', true);
+
+            // print the key block.
+            return $this->printBlock([
+                "JWT_SECRET={$key}",
+            ], 'bg=yellow;fg=black');
+        }
+
+        // Next, we will replace the application key in the environment file so it is
+        // automatically setup for this developer. This key gets generated using a
+        // secure random byte generator and is later base64 encoded for storage.
+        if (!$this->setKeyInEnvironmentFile($key)) {
+            return;
+        }
+
+        $this->laravel['config']['jwt.secret'] = $key;
 
         // print the key block.
         $this->printBlock([
             "JWT_SECRET={$key}",
         ], 'bg=yellow;fg=black');
+    }
+
+    /**
+     * Set the application key in the environment file.
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    protected function setKeyInEnvironmentFile($key)
+    {
+        $currentKey = $this->laravel['config']['jwt.secret'];
+
+        if (0 !== strlen($currentKey) && (!$this->confirmToProceed())) {
+            return false;
+        }
+
+        $this->writeNewEnvironmentFileWith($key);
+
+        return true;
+    }
+
+    /**
+     * Write a new environment file with the given key.
+     *
+     * @param string $key
+     */
+    protected function writeNewEnvironmentFileWith($key)
+    {
+        file_put_contents($this->laravel->environmentFilePath(), preg_replace(
+                $this->keyReplacementPattern(),
+                'JWT_SECRET='.$key,
+                file_get_contents($this->laravel->environmentFilePath())
+            ));
     }
 
     /**
@@ -87,5 +140,17 @@ class KeyGenerateCommand extends Command
 
         // empty ending line.
         $this->line('');
+    }
+
+    /**
+     * Get a regex pattern that will match env APP_KEY with any random key.
+     *
+     * @return string
+     */
+    protected function keyReplacementPattern()
+    {
+        $escaped = preg_quote('='.$this->laravel['config']['jwt.secret'], '/');
+
+        return "/^JWT_SECRET{$escaped}/m";
     }
 }
