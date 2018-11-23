@@ -46,7 +46,7 @@ class ServiceProvider extends AuthServiceProvider
             $guard->setDispatcher(resolve(Dispatcher::class));
 
             // returns the guard instance.
-            return $guard;
+            return new Guard($app, $name, $userProvider, $tokenManager);
         });
     }
 
