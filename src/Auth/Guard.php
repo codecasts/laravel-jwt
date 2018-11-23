@@ -124,9 +124,7 @@ class Guard implements GuardContract
     protected function fireAttemptEvent(array $credentials)
     {
         if (isset($this->events)) {
-            $this->events->dispatch(new Attempting(
-                $credentials, false
-            ));
+            $this->events->dispatch(new Attempting('jwt', $credentials, false));
         }
     }
 
@@ -140,7 +138,7 @@ class Guard implements GuardContract
     protected function fireFailedEvent($user, array $credentials)
     {
         if (isset($this->events)) {
-            $this->events->dispatch(new Failed($user, $credentials));
+            $this->events->dispatch(new Failed('jwt', $user, $credentials));
         }
     }
 
@@ -154,7 +152,7 @@ class Guard implements GuardContract
     protected function fireLoginEvent($user)
     {
         if (isset($this->events)) {
-            $this->events->dispatch(new Login($user, false));
+            $this->events->dispatch(new Login('jwt', $user, false));
         }
     }
 
