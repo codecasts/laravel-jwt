@@ -100,13 +100,12 @@ class ServiceProvider extends LaravelServiceProvider
 
                 // if there is a group detected and there is a guard that matches the middleware
                 // group name...
-                if ($middlewareGroup) {
-                    try {
-                        $this->app['auth']->guard($middlewareGroup);
+                try {
+                    if ($middlewareGroup && !!$this->app['auth']->guard($middlewareGroup)) {
                         // setup the matching guard as default.
                         $this->app['auth']->setDefaultDriver($middlewareGroup);
-                    } catch(\Exception $e) {}
-                }
+                    }
+                } catch(\Exception $e) {}
             });
         }
     }
