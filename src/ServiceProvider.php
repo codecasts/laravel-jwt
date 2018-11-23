@@ -98,11 +98,14 @@ class ServiceProvider extends LaravelServiceProvider
                 // get the route middleware group.
                 $middlewareGroup = Arr::first((array) $event->route->middleware());
 
-                // if there is a group detected and  there is a guard that matches the middleware
+                // if there is a group detected and there is a guard that matches the middleware
                 // group name...
-                if ($middlewareGroup && !!$this->app['auth']->guard($middlewareGroup)) {
-                    // setup the matching guard as default.
-                    $this->app['auth']->setDefaultDriver($middlewareGroup);
+                if ($middlewareGroup) {
+                    try {
+                        $this->app['auth']->guard($middlewareGroup);
+                        // setup the matching guard as default.
+                        $this->app['auth']->setDefaultDriver($middlewareGroup);
+                    } catch(\Exception $e) {}
                 }
             });
         }
