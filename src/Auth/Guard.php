@@ -269,24 +269,15 @@ class Guard implements GuardContract
      */
     protected function detectedToken()
     {
-        // retrieve the token from the Authorization header.
-        $headerToken = $this->getTokenFromHeader();
+        // retrieve the token from request.
+        $detectedToken = $this->getTokenFromHeader() ?? $this->getTokenFromParameter();
 
-        // if a token was found...
-        if ($headerToken) {
-            // return a new token instance.
-            $this->token = $this->manager()->parseToken($headerToken);
+        if ($detectedToken) {
+            // update the currently used token
+            $this->token = $this->manager()->parseToken($detectedToken);
         }
 
-        // try to find a token passed as parameter on the request.
-        $parameterToken = $this->getTokenFromParameter();
-
-        // if found...
-        if ($parameterToken) {
-            $this->token = $this->manager()->parseToken($parameterToken);
-        }
-
-        // return null if no token could be found.
+        // return current token in use
         return $this->token;
     }
 
