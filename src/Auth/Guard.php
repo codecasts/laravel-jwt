@@ -39,6 +39,16 @@ class Guard implements GuardContract
     protected $name;
 
     /**
+     * Methods used to detect the token in the request
+     *
+     * @var array
+     */
+    protected $detections = [
+        'header',
+        'parameter'
+    ];
+
+    /**
      * The currently authenticated user.
      *
      * @var \Illuminate\Contracts\Auth\Authenticatable
@@ -269,15 +279,28 @@ class Guard implements GuardContract
      */
     protected function detectedToken()
     {
-        // retrieve the token from request.
-        $detectedToken = $this->getTokenFromHeader() ?? $this->getTokenFromParameter();
+        if (in_array('header', $this->detections, true)) {
+            // retrieve the token from the Authorization header.
+            $headerToken = $this->getTokenFromHeader();
 
-        if ($detectedToken) {
-            // update the currently used token
-            $this->token = $this->manager()->parseToken($detectedToken);
+            // if a token was found...
+            if ($headerToken) {
+                // return a new token instance.
+                $this->token = $this->manager()->parseToken($headerToken);
+            }
         }
 
-        // return current token in use
+        if (in_array('parameter', $this->detections, true)) {
+            // try to find a token passed as parameter on the request.
+            $parameterToken = $this->getTokenFromParameter();
+
+            // if found...
+            if ($parameterToken) {
+                $this->token = $this->manager()->parseToken($parameterToken);
+            }
+        }
+
+        // return null if no token could be found.
         return $this->token;
     }
 
@@ -454,6 +477,16 @@ class Guard implements GuardContract
     public function setDispatcher(Dispatcher $events)
     {
         $this->events = $events;
+    }
+
+    /**
+     * Set the token detection methods. Accepted: parameter, header
+     *
+     * @param array $detections
+     */
+    public function setTokenDetections(array $detections)
+    {
+        $this->detections = $detections;
     }
 
     /**

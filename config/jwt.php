@@ -99,4 +99,21 @@ return [
 
     'middleware_match' => true,
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Token detection from request methods
+    |--------------------------------------------------------------------------
+    |
+    | Use an array of strings including: parameter, header
+    |
+    | Header will check the request for the Authorization: Bearer TOKEN header
+    | Parameter will check for the token the request body "token" parameters
+    |
+     */
+    'token_detections' => [
+        'parameter',
+        'header'
+    ]
+
 ];

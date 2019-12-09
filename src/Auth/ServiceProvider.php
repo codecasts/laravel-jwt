@@ -45,6 +45,11 @@ class ServiceProvider extends AuthServiceProvider
             // set a event dispatcher on the guard.
             $guard->setDispatcher(resolve(Dispatcher::class));
 
+            $detections = $this->app['config']->get('jwt.token_detections', ['parameter', 'header']);
+
+            // set the token detection methods
+            $guard->setTokenDetections($detections);
+
             // returns the guard instance.
             return new Guard($app, $name, $userProvider, $tokenManager);
         });
