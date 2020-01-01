@@ -216,7 +216,7 @@ class Guard implements GuardContract
      * Login a given user. It means, generate a new token for a user.
      *
      * @param Authenticatable $user
-     * @return mixed
+     * @return $this
      */
     public function login(Authenticatable $user)
     {
@@ -226,6 +226,8 @@ class Guard implements GuardContract
         $this->fireLoginEvent($user);
 
         $this->setUser($user);
+
+        return $this;
     }
 
     /**
